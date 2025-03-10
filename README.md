@@ -11,4 +11,4 @@ Check out the source code folder [python-api-access](https://github.com/SOBOS-Gm
 
 **Helper classes**
 - basic_api_access.py: Helper class that eases API access for you
-- auth_token_generator.py: Helper class to help you authenticate at
+- auth_token_generator.py: Helper class to help you authenticate
