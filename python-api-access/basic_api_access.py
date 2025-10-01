@@ -3,7 +3,6 @@ import json
 import pandas as pd
 import auth_token_generator as alg
 
-
 class BasicApiAccess(object):
     xAuthToken = None
 
@@ -24,7 +23,9 @@ class BasicApiAccess(object):
         url = "https://api.pegelalarm.at/api/login"
         payload = json.dumps(credentials_int)
         headers = {"Content-Type": "application/json"}
-        response = requests.post(url, headers=headers, data=payload)
+        response = requests.post(url, headers=headers, data=payload, verify=False)
+
+
         if response.status_code == 200:
             if response.json()['status']['code'] == 200:
                 return response.json()['payload']['apiKey']
@@ -44,7 +45,7 @@ class BasicApiAccess(object):
             "Content-Type": "application/json",
             "X-AUTH-TOKEN": self.xAuthToken
         }
-        response = requests.get("https://api.pegelalarm.at/api/station/1.1/list", params=parameters, headers=headers)
+        response = requests.get("https://api.pegelalarm.at/api/station/1.1/list", params=parameters, headers=headers, verify=False)
         if response.status_code == 200:
             # jsonPrint(response.json()['payload'])
             return response.json()['payload']
@@ -62,7 +63,7 @@ class BasicApiAccess(object):
             "Content-Type": "application/json",
             "X-AUTH-TOKEN": self.xAuthToken
         }
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, verify=False)
         if response.status_code == 200:
             history_df = pd.DataFrame(response.json()["payload"]["history"])
             if history_df.empty:
