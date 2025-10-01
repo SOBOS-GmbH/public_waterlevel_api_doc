@@ -1,11 +1,13 @@
 from basic_api_access import BasicApiAccess
 import datetime
+from dotenv import load_dotenv
+import os
 
-
-# Enter your private data here. If you don't have a username/password, please write to office@sobos.at
-username = "username"
-password = "password"
-
+# Create a .env file and enter your username and password into it (using USERNAME and PASSWORD as keys).
+# If you don't have a username/password, please write to office@sobos.at
+load_dotenv()
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 baa = BasicApiAccess(username, password)
 

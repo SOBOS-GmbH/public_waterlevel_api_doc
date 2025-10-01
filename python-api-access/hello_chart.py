@@ -2,10 +2,14 @@ from basic_api_access import BasicApiAccess
 import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from dotenv import load_dotenv
+import os
 
-# Enter your private credentials here. If you don't have a username/password, please write to office@sobos.at
-username = "username"
-password = "password"
+# Create a .env file and enter your username and password into it (using USERNAME and PASSWORD as keys).
+# If you don't have a username/password, please write to office@sobos.at
+load_dotenv()
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 
 def chartGaugeWaterlevel(station_name, water_name, loadStartDate, loadEndDate, title=None, filename=None):
@@ -16,24 +20,27 @@ def chartGaugeWaterlevel(station_name, water_name, loadStartDate, loadEndDate, t
 
     # Load historic water level height for a specific station
     df = baa.query_historic_data(result0CommonId, loadStartDate, loadEndDate)
-    df.set_index("sourceDate", inplace=True)
-    print("Result: " + str(df))
-
-    # Chart data
-    if title is None:
-        title = station_name + " / " + water_name + " from " \
-                + (load_to - load_hours).strftime("%Y-%m-%d %H:%M") + " to " + load_to.strftime("%Y-%m-%d %H:%M")
-
-    ax = plt.gca()
-    ax.plot(df.index.values, df['value'].values, '-o', color='blue', markersize=2)
-    ax.set(xlabel="Source date", ylabel="cm", title=title)
-    ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
-
-    if filename is None:
-        plt.show()
+    if df.empty:
+        print("DataFrame ist leer.")
     else:
-        plt.savefig(filename)
-    plt.close()
+        df.set_index("sourceDate", inplace=True)
+        print("Result: " + str(df))
+
+        # Chart data
+        if title is None:
+            title = station_name + " / " + water_name + " from " \
+                    + (load_to - load_hours).strftime("%Y-%m-%d %H:%M") + " to " + load_to.strftime("%Y-%m-%d %H:%M")
+
+        ax = plt.gca()
+        ax.plot(df.index.values, df['value'].values, '-o', color='blue', markersize=2)
+        ax.set(xlabel="Source date", ylabel="cm", title=title)
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
+
+        if filename is None:
+            plt.show()
+        else:
+            plt.savefig(filename)
+        plt.close()
 
 
 if __name__ == "__main__":

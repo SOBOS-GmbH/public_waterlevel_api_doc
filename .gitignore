@@ -1,3 +1,6 @@
 .idea/**
 python-api-access/.idea/
 python-api-access/__pycache__/
+python-api-access/output/*
+python-api-access/venv/*
+python-api-access/.env

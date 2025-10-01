@@ -65,7 +65,10 @@ class BasicApiAccess(object):
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
             history_df = pd.DataFrame(response.json()["payload"]["history"])
-            history_df['sourceDate'] = pd.to_datetime(history_df['sourceDate'], format='%d.%m.%YT%H:%M:%S%z')
+            if history_df.empty:
+                print("DataFrame ist leer.")
+            else:
+                history_df['sourceDate'] = pd.to_datetime(history_df['sourceDate'], format='%d.%m.%YT%H:%M:%S%z')
             return history_df
         else:
             print("Failed to call API: " + response.url)
