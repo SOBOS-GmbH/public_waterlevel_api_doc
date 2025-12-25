@@ -23,7 +23,9 @@ class BasicApiAccess(object):
         url = "https://api.pegelalarm.at/api/login"
         payload = json.dumps(credentials_int)
         headers = {"Content-Type": "application/json"}
-        response = requests.post(url, headers=headers, data=payload, verify=False)
+        response = requests.post(url, headers=headers, data=payload
+                                 #, verify=False
+                                 )
 
 
         if response.status_code == 200:
@@ -45,7 +47,9 @@ class BasicApiAccess(object):
             "Content-Type": "application/json",
             "X-AUTH-TOKEN": self.xAuthToken
         }
-        response = requests.get("https://api.pegelalarm.at/api/station/1.1/list", params=parameters, headers=headers, verify=False)
+        response = requests.get("https://api.pegelalarm.at/api/station/1.1/list", params=parameters, headers=headers
+                                #, verify=False
+                                )
         if response.status_code == 200:
             # jsonPrint(response.json()['payload'])
             return response.json()['payload']
@@ -63,7 +67,9 @@ class BasicApiAccess(object):
             "Content-Type": "application/json",
             "X-AUTH-TOKEN": self.xAuthToken
         }
-        response = requests.get(url, headers=headers, verify=False)
+        response = requests.get(url, headers=headers
+                                #, verify=False
+                                )
         if response.status_code == 200:
             history_df = pd.DataFrame(response.json()["payload"]["history"])
             if history_df.empty:

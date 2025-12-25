@@ -4,3 +4,4 @@ python-api-access/__pycache__/
 python-api-access/output/*
 python-api-access/venv/*
 python-api-access/.env
+python-api-access/.DS_Store
