@@ -96,33 +96,9 @@ def set_dailymail_threshold(commonid: str,
 
 
 station_data_prod = {
-    "205351-at": {
-        "name": "Kammer / Attersee",
-        "HW1": 175, "HW5": 200, "HW10": 215, "HW30": 235
-    },
-    "205369-at": {
-        "name": "Raudaschlsäge / Ager",
-        "HW1": 83, "HW5": 90, "HW10": 105, "HW30": 115
-    },
-    "206276-at": {
-        "name": "Dürnau / Ager",
-        "HW1": 145, "HW5": 160, "HW10": 170, "HW30": 190
-    },
-    "205393-at": {
-        "name": "Timelkam / Vöckla",
-        "HW1": 295, "HW5": 370, "HW10": 395, "HW30": 445
-    },
-    "205401-at": {
-        "name": "St. Georgen / Dürre Ager",
-        "HW1": 250, "HW5": 310, "HW10": 340, "HW30": 370
-    },
-    "205419-at": {
-        "name": "Vöcklabruck / Vöckla",
-        "HW1": 270, "HW5": 360, "HW10": 390, "HW30": 420
-    },
-    "205427-at": {
-        "name": "Schalchham / Ager",
-        "HW1": 295, "HW5": 390, "HW10": 410, "HW30": 445
+    "207357-at": {
+        "name": "Kientstock / Donau",
+        "HW1": 5000, "HW5": 6000, "HW10": 7000, "HW30": 8000
     }
 }
 
@@ -145,6 +121,12 @@ alarm_msgs = {
 }
 
 contact_list_prod = [
+    {
+        "id": 1,
+        "name": "End2End user Johannes Strassmayr PA-409",
+        "telefon": "+436644549594",
+        "email": "b73f2d84-16d2-4a4c-ba4c-93bced77f12f@hc-ping.com"
+    },
 ]
 
 contact_list_dev = [
@@ -163,11 +145,11 @@ contact_list_dev = [
 ]
 
 
-station_data = station_data_dev
-contact_list = contact_list_dev
+station_data = station_data_prod
+contact_list = contact_list_prod
 
-do_ondemand = False         # already done
-do_dailymail = False        # already done
+do_ondemand = False         
+do_dailymail = True        
 
 if __name__ == "__main__":
     print("===== Setting thresholds for Pegelalarm PA-407 project =====")
@@ -192,7 +174,7 @@ if __name__ == "__main__":
         n = 0
         for contact in contact_list:
             customer_email = contact["email"]
-            target = f"strassmayr+pa-407-rename-{n}@gmail.com"
+            target = customer_email     # or use f"strassmayr+pa-407-rename-{n}@gmail.com" if you want to use a different email for the initial process (including mails) but change it later via sql-update stmt
             print(f"Setting daily mail for {target}")
             set_dailymail_threshold(commonid="205427-at",
                         billing_address=target)
